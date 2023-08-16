@@ -120,7 +120,6 @@ def main():
             ]
         },
 
-        # fallbacks=[MessageHandler(Filters.text('Новый вопрос'), handle_new_question_request)]
         fallbacks=[CommandHandler('cancel', cancel)]
     )
 

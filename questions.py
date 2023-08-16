@@ -1,5 +1,5 @@
 def get_questions():
-    with open('quiz-questions/1vs1200.txt', 'r', encoding='KOI8-R') as quiz_file:
+    with open('faq-example.txt', 'r', encoding='KOI8-R') as quiz_file:
       quiz_content = quiz_file.read()
 
     questions = []
