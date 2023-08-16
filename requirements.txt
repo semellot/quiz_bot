@@ -1,2 +1,5 @@
 python-telegram-bot==13.*
 python-dotenv==1.*
+redis==4.6.*
+requests==2.31.*
+vk_api==11.9.*
