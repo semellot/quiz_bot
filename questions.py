@@ -1,5 +1,8 @@
+import os
+cwd = os.getcwd()
+
 def get_questions():
-    with open('faq-example.txt', 'r', encoding='KOI8-R') as quiz_file:
+    with open(f'{cwd}/faq-example.txt', 'r', encoding='KOI8-R') as quiz_file:
       quiz_content = quiz_file.read()
 
     questions = []
