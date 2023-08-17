@@ -16,6 +16,7 @@ from vk_api.longpoll import VkLongPoll, VkEventType
 from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 from vk_api.utils import get_random_id
 
+
 load_dotenv()
 database_host = os.getenv('REDIS_HOST')
 database_port = os.getenv('REDIS_PORT')
@@ -51,6 +52,7 @@ def handle_new_question_request(event, vk_api):
         keyboard=send_keybord(),
         message=question[0],
     )
+
 
 def handle_solution_attempt(event, vk_api):
     question = database.get(event.user_id)

@@ -54,9 +54,7 @@ def start(update: Update, context: CallbackContext) -> None:
 
 
 def handle_new_question_request(update: Update, context: CallbackContext) -> None:
-    print('new_question')
     question = random.choice(get_questions())
-    print(question)
     database.set(update.message.chat_id, question[0])
     update.message.reply_text(question[0])
 
@@ -64,7 +62,6 @@ def handle_new_question_request(update: Update, context: CallbackContext) -> Non
 
 
 def handle_solution_attempt(update: Update, context: CallbackContext) -> None:
-    print('check_answer')
     question = database.get(update.message.chat_id)
     answer = get_answer(question)
     if answer == update.message.text:
@@ -76,16 +73,13 @@ def handle_solution_attempt(update: Update, context: CallbackContext) -> None:
 
 
 def handle_surrender(update: Update, context: CallbackContext) -> None:
-    print('surrender')
     question = database.get(update.message.chat_id)
     if question:
         answer = get_answer(question)
         update.message.reply_text(f'Правильный ответ: {answer}')
-
         update.message.reply_text(f'Новый вопрос:')
 
     question = random.choice(get_questions())
-    print(question)
     database.set(update.message.chat_id, question[0])
     update.message.reply_text(question[0])
 

@@ -1,5 +1,6 @@
 import os
 
+
 def get_questions():
     with open(f'{os.path.dirname(__file__)}/faq-example.txt', 'r', encoding='KOI8-R') as quiz_file:
       quiz_content = quiz_file.read()
