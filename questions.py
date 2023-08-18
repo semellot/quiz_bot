@@ -1,8 +1,8 @@
 import os
 
 
-def get_questions():
-    with open(f'{os.path.dirname(__file__)}/faq-example.txt', 'r', encoding='KOI8-R') as quiz_file:
+def get_questions(faq_file):
+    with open(f'{os.path.dirname(__file__)}/{faq_file}', 'r', encoding='KOI8-R') as quiz_file:
       quiz_content = quiz_file.read()
 
     questions = []
@@ -18,8 +18,8 @@ def get_questions():
     return questions
 
 
-def get_answer(user_question):
-    questions = get_questions()
+def get_answer(faq_file, user_question):
+    questions = get_questions(faq_file)
     for question in questions:
         if user_question in question:
             return question[1]

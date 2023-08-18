@@ -1,3 +1,4 @@
+import argparse
 import logging
 import os
 import random
@@ -40,6 +41,12 @@ logger = logging.getLogger('Logger')
 
 ANSWER, QUESTION = range(2)
 
+default_faq_file = 'faq-example.txt'
+parser = argparse.ArgumentParser()
+parser.add_argument('faq_file', help='Файл с вопросами и ответами', nargs='?', default=default_faq_file)
+received_args = parser.parse_args()
+faq_file = received_args.faq_file
+
 
 def start(update: Update, context: CallbackContext) -> None:
     user = update.effective_user
@@ -54,7 +61,7 @@ def start(update: Update, context: CallbackContext) -> None:
 
 
 def handle_new_question_request(update: Update, context: CallbackContext) -> None:
-    question = random.choice(get_questions())
+    question = random.choice(get_questions(faq_file))
     database.set(update.message.chat_id, question[0])
     update.message.reply_text(question[0])
 
@@ -63,7 +70,7 @@ def handle_new_question_request(update: Update, context: CallbackContext) -> Non
 
 def handle_solution_attempt(update: Update, context: CallbackContext) -> None:
     question = database.get(update.message.chat_id)
-    answer = get_answer(question)
+    answer = get_answer(faq_file, question)
     if answer == update.message.text:
         update.message.reply_text('Правильно! Поздравляю! Для следующего вопроса нажми «Новый вопрос»')
         return QUESTION
@@ -75,11 +82,11 @@ def handle_solution_attempt(update: Update, context: CallbackContext) -> None:
 def handle_surrender(update: Update, context: CallbackContext) -> None:
     question = database.get(update.message.chat_id)
     if question:
-        answer = get_answer(question)
+        answer = get_answer(faq_file, question)
         update.message.reply_text(f'Правильный ответ: {answer}')
         update.message.reply_text(f'Новый вопрос:')
 
-    question = random.choice(get_questions())
+    question = random.choice(get_questions(faq_file))
     database.set(update.message.chat_id, question[0])
     update.message.reply_text(question[0])
 

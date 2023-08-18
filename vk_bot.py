@@ -1,3 +1,4 @@
+import argparse
 import logging
 import os
 import random
@@ -33,6 +34,12 @@ database.ping()
 
 logger = logging.getLogger('Logger for vk_bot')
 
+default_faq_file = 'faq-example.txt'
+parser = argparse.ArgumentParser()
+parser.add_argument('faq_file', help='Файл с вопросами и ответами', nargs='?', default=default_faq_file)
+received_args = parser.parse_args()
+faq_file = received_args.faq_file
+
 
 def send_keybord():
     keyboard = VkKeyboard(one_time=True)
@@ -44,7 +51,7 @@ def send_keybord():
 
 
 def handle_new_question_request(event, vk_api):
-    question = random.choice(get_questions())
+    question = random.choice(get_questions(faq_file))
     database.set(event.user_id, question[0])
     vk_api.messages.send(
         user_id=event.user_id,
@@ -56,7 +63,7 @@ def handle_new_question_request(event, vk_api):
 
 def handle_solution_attempt(event, vk_api):
     question = database.get(event.user_id)
-    answer = get_answer(question)
+    answer = get_answer(faq_file, question)
     if answer == event.text:
         vk_api.messages.send(
             user_id=event.user_id,
@@ -76,10 +83,10 @@ def handle_solution_attempt(event, vk_api):
 def handle_surrender(event, vk_api):
     question = database.get(event.user_id)
     if question:
-        answer = get_answer(question)
+        answer = get_answer(faq_file, question)
         message=f'Правильный ответ: {answer} \n\n Новый вопрос:\n'
 
-    question = random.choice(get_questions())
+    question = random.choice(get_questions(faq_file))
     database.set(event.user_id, question[0])
     vk_api.messages.send(
         user_id=event.user_id,
