@@ -33,9 +33,12 @@ pip install -r requirements.txt
 
 ### Как запустить и использовать
 
-1. Для запуска бота в Telegram используйте команду: `python tg_bot.py`
+1. Для наполнения базы вопросами и ответами используйте команду: `python fill_database.py`
+Или `python fill_database.py --file filename.txt` если хотите указать собственное имя.
 
-2. Для запуска бота в VK используйте команду `python vk_bot.py`
+2. Для запуска бота в Telegram используйте команду: `python tg_bot.py`
+
+3. Для запуска бота в VK используйте команду `python vk_bot.py`
 
 
 ## Цель проекта
